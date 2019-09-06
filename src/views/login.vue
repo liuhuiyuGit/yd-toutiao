@@ -17,22 +17,26 @@
 </template>
 <script>
 import { login } from '@/api/user'
+import { mapMutations } from 'vuex'
 export default {
   data () {
     return {
       user: {
-        mobile: '',
-        code: ''
+        mobile: '13911111111',
+        code: '246810'
       }
     }
   },
   methods: {
+    ...mapMutations(['setUser']),
     async handleLogin () {
       try {
-        await login(this.user)
+        const data = await login(this.user)
+        this.setUser(data)
         this.$router.push('/')
         this.$toast.success('登录成功')
       } catch (err) {
+        this.$toast.fail('登录失败')
         console.log(err)
       }
     }
