@@ -23,25 +23,39 @@
     </van-cell-group>
     <!-- 登录按钮 -->
     <div class="information">
-      <van-button class="informationbtn" @click="handleLogin" type="info">登录</van-button>
+      <van-button
+      :loading="loading"
+      loading-type="spinner"
+      loading-text="正在登录..."
+      class="informationbtn"
+      @click="handleLogin"
+      type="info">登录</van-button>
     </div>
   </div>
 </template>
 <script>
 import { login } from '@/api/user'
 import { mapMutations } from 'vuex'
+import Vue from 'vue'
+import { Button } from 'vant'
+Vue.use(Button)
 export default {
   data () {
     return {
+      // 手机号验证码
       user: {
         mobile: '13911111111',
         code: '246810'
-      }
+      },
+      // 登录按钮加载状态
+      loading: false
     }
   },
   methods: {
     ...mapMutations(['setUser']),
+    // 点击登录按钮触发的事件
     async handleLogin () {
+      this.loading = true
       try {
         const valid = await this.$validator.validate()
         if (!valid) {
@@ -56,6 +70,7 @@ export default {
         this.$toast.fail('登录失败')
         console.log(err)
       }
+      this.loading = false
     }
   },
   created () {
