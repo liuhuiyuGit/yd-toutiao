@@ -4,6 +4,7 @@
     <van-nav-bar fixed title="标题"/>
     <!-- top导航栏 -->
     <van-tabs v-model="activeIndex">
+      <van-icon slot="nav-right" name="wap-nav" class="nav-btn" @click="showChannelEdit=true"/>
       <van-tab v-for="item in channels" :key="item.id" :title="item.name">
         <!-- 下拉加载更多组件 -->
         <van-pull-refresh
@@ -54,8 +55,18 @@
     <!--
         :value = isshow
         @input = isshow = $event
+        列表管理弹层
     -->
     <More-action @handleSuccess="handleSuccess" v-model="isshow" :article="currentArticle"></More-action>
+    <!--
+      频道管理弹层
+    -->
+    <channel-edit
+      @activeChange="handleChange"
+      :active="activeIndex"
+      :channels="channels"
+      v-model="showChannelEdit"
+    ></channel-edit>
   </div>
 </template>
 <script>
@@ -64,10 +75,13 @@ import { getArticles } from '../../api/article.js'
 import Vue from 'vue'
 import { Lazyload } from 'vant'
 import MoreAction from './components/MoreAction'
+import ChannelEdit from './components/ChannelEdit'
+import { getItem, setItem } from '../../utils/localStorage.js'
 Vue.use(Lazyload)
 export default {
   components: {
-    MoreAction
+    MoreAction,
+    ChannelEdit
   },
   data () {
     return {
@@ -78,7 +92,8 @@ export default {
       // 把当前数据对象 传入给弹层
       currentArticle: null,
       isshow: false,
-      successText: ''
+      successText: '',
+      showChannelEdit: false
     }
   },
   computed: {
@@ -91,7 +106,7 @@ export default {
     handleSuccess () {
       this.isshow = false
       const articles = this.currentChannel.articles
-      const index = articles.findIndex((article) => {
+      const index = articles.findIndex(article => {
         return article.art_id === this.currentArticle.art_id
       })
       // 删除指定位置的元素
@@ -125,20 +140,35 @@ export default {
     //   页面刷新获取频道列表数据
     async loadChannels () {
       try {
-        const data = await getDefaultOrUserChannels()
-        data.channels.forEach(channel => {
-          // 存储时间戳
+        let channels = []
+        // 1. 如果用户登录，发送请求，获取数据
+        if (this.$store.state.user) {
+          const data = await getDefaultOrUserChannels()
+          channels = data.channels
+        } else {
+          // 2. 如果用户没有登录，先去本地存储中获取数据，如果没有数据再发送请求
+          // 如果本地存储中没有值，获取的是null
+          channels = getItem('channels')
+          if (!channels) {
+            const data = await getDefaultOrUserChannels()
+            channels = data.channels
+            // 存储到本地存储中
+            setItem('channels', channels)
+          }
+        }
+
+        // console.log(data)
+        // 给所有的频道设置，时间戳和文章数组
+        channels.forEach((channel) => {
           channel.timestamp = null
-          // 粗出数据
           channel.articles = []
-          // 存储状态
+          // 上拉加载
           channel.loading = false
-          // 存储状态
           channel.finished = false
-          //  下拉刷新
+          // 下拉加载
           channel.pullLoading = false
         })
-        this.channels = data.channels
+        this.channels = channels
       } catch (err) {
         console.log(err)
       }
@@ -163,6 +193,10 @@ export default {
       } catch (err) {
         console.log(err)
       }
+    },
+    handleChange (index) {
+      this.activeIndex = index
+      this.showChannelEdit = false
     }
   },
   created () {
@@ -186,5 +220,13 @@ export default {
 }
 .close {
   float: right;
+}
+.nav-btn {
+  position: fixed;
+  right: 10px;
+  line-height: 44px;
+  background-color: #fff;
+  opacity: 0.8;
+  font-size: 22px;
 }
 </style>
