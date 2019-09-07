@@ -5,49 +5,56 @@
     <!-- top导航栏 -->
     <van-tabs v-model="activeIndex">
       <van-tab v-for="item in channels" :key="item.id" :title="item.name">
-        <!-- 上拉更新列表 -->
-        <van-list
-          v-model="currentChannel.loading"
-          :finished="currentChannel.finished"
-          finished-text="没有更多了"
-          @load="onLoad"
+        <!-- 下拉加载更多组件 -->
+        <van-pull-refresh
+          :success-text="successText"
+          v-model="currentChannel.pullLoading"
+          @refresh="onRefresh"
         >
-          <van-cell
-            v-for="article in currentChannel.articles"
-            :key="article.art_id.toString()"
-            :title="article.title"
+          <!-- 上拉更新列表 -->
+          <van-list
+            v-model="currentChannel.loading"
+            :finished="currentChannel.finished"
+            finished-text="没有更多了"
+            @load="onLoad"
           >
-            <div slot="label">
-              <!-- grid 显示封面
+            <van-cell
+              v-for="article in currentChannel.articles"
+              :key="article.art_id.toString()"
+              :title="article.title"
+            >
+              <div slot="label">
+                <!-- grid 显示封面
                   article.cover.type   0 没有图片   1 1个图片 3 3个图片
-              -->
-              <van-grid v-if="article.cover.type" :border="false" :column-num="3">
-                <van-grid-item v-for="(img, index) in article.cover.images" :key="index">
-                  <van-image lazy-load height="80" :src="img"/>
-                  <!-- 图片的加载提示 -->
-                  <template v-slot:loading>
-                    <van-loading type="spinner" size="20"/>
-                  </template>
-                  <!-- 自定义加载失败提示 -->
-                  <template v-slot:error>加载失败</template>
-                </van-grid-item>
-              </van-grid>
-              <p>
-                <span>{{ article.aut_name }}</span>&nbsp;
-                <span>{{ article.comm_count }}评论</span>&nbsp;
-                <span>{{ article.pubdate | fmtDate }}</span>&nbsp;
-                <!-- 点击x按钮，记录当前的文章对象 -->
-                <van-icon name="cross" class="close" @click="handleAction(article)"/>
-              </p>
-            </div>
-          </van-cell>
-        </van-list>
+                -->
+                <van-grid v-if="article.cover.type" :border="false" :column-num="3">
+                  <van-grid-item v-for="(img, index) in article.cover.images" :key="index">
+                    <van-image lazy-load height="80" :src="img"/>
+                    <!-- 图片的加载提示 -->
+                    <template v-slot:loading>
+                      <van-loading type="spinner" size="20"/>
+                    </template>
+                    <!-- 自定义加载失败提示 -->
+                    <template v-slot:error>加载失败</template>
+                  </van-grid-item>
+                </van-grid>
+                <p>
+                  <span>{{ article.aut_name }}</span>&nbsp;
+                  <span>{{ article.comm_count }}评论</span>&nbsp;
+                  <span>{{ article.pubdate | fmtDate }}</span>&nbsp;
+                  <!-- 点击x按钮，记录当前的文章对象 -->
+                  <van-icon name="cross" class="close" @click="handleAction(article)"/>
+                </p>
+              </div>
+            </van-cell>
+          </van-list>
+        </van-pull-refresh>
       </van-tab>
     </van-tabs>
     <!--
         :value = isshow
         @input = isshow = $event
-     -->
+    -->
     <More-action v-model="isshow" :article="currentArticle"></More-action>
   </div>
 </template>
@@ -70,7 +77,8 @@ export default {
       activeIndex: 0,
       // 把当前数据对象 传入给弹层
       currentArticle: null,
-      isshow: false
+      isshow: false,
+      successText: ''
     }
   },
   computed: {
@@ -80,6 +88,27 @@ export default {
     }
   },
   methods: {
+    //  下拉触发的事件
+    async onRefresh () {
+      try {
+        const data = await getArticles({
+          // 频道的id
+          channelId: this.currentChannel.id,
+          // 时间戳
+          timestamp: Date.now(),
+          // 是否包含置顶1，0不包含
+          withTop: 1
+        })
+
+        // 设置加载完毕
+        this.currentChannel.pullLoading = false
+        // 把数据放到数组的最前面（最新数据）
+        this.currentChannel.articles.unshift(...data.results)
+        this.successText = `加载了${data.results.length}条数据`
+      } catch (err) {
+        console.log(err)
+      }
+    },
     handleAction (article) {
       this.currentArticle = article
       this.isshow = true
@@ -97,6 +126,8 @@ export default {
           channel.loading = false
           // 存储状态
           channel.finished = false
+          //  下拉刷新
+          channel.pullLoading = false
         })
         this.channels = data.channels
       } catch (err) {
