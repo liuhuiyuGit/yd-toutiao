@@ -6,8 +6,10 @@ import Vant from 'vant'
 import VeeValidate from 'vee-validate'
 import 'vant/lib/index.css'
 import './styles/index.less'
+import { fmtDate } from '@/utils/dayjs'
 Vue.use(Vant)
 Vue.use(VeeValidate)
+Vue.filter('fmtDate', fmtDate)
 Vue.config.productionTip = false
 
 new Vue({
