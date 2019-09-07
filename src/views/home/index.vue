@@ -55,7 +55,7 @@
         :value = isshow
         @input = isshow = $event
     -->
-    <More-action v-model="isshow" :article="currentArticle"></More-action>
+    <More-action @handleSuccess="handleSuccess" v-model="isshow" :article="currentArticle"></More-action>
   </div>
 </template>
 <script>
@@ -88,6 +88,15 @@ export default {
     }
   },
   methods: {
+    handleSuccess () {
+      this.isshow = false
+      const articles = this.currentChannel.articles
+      const index = articles.findIndex((article) => {
+        return article.art_id === this.currentArticle.art_id
+      })
+      // 删除指定位置的元素
+      articles.splice(index, 1)
+    },
     //  下拉触发的事件
     async onRefresh () {
       try {
