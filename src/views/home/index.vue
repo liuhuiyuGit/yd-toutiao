@@ -37,13 +37,18 @@
                 <span>{{ article.comm_count }}评论</span>&nbsp;
                 <span>{{ article.pubdate | fmtDate }}</span>&nbsp;
                 <!-- 点击x按钮，记录当前的文章对象 -->
-                <van-icon name="cross" class="close"/>
+                <van-icon name="cross" class="close" @click="handleAction(article)"/>
               </p>
             </div>
           </van-cell>
         </van-list>
       </van-tab>
     </van-tabs>
+    <!--
+        :value = isshow
+        @input = isshow = $event
+     -->
+    <More-action v-model="isshow" :article="currentArticle"></More-action>
   </div>
 </template>
 <script>
@@ -51,14 +56,21 @@ import { getDefaultOrUserChannels } from '../../api/channel.js'
 import { getArticles } from '../../api/article.js'
 import Vue from 'vue'
 import { Lazyload } from 'vant'
+import MoreAction from './components/MoreAction'
 Vue.use(Lazyload)
 export default {
+  components: {
+    MoreAction
+  },
   data () {
     return {
       // 频道列表数据
       channels: [],
       //   频道列表索引
-      activeIndex: 0
+      activeIndex: 0,
+      // 把当前数据对象 传入给弹层
+      currentArticle: null,
+      isshow: false
     }
   },
   computed: {
@@ -68,6 +80,10 @@ export default {
     }
   },
   methods: {
+    handleAction (article) {
+      this.currentArticle = article
+      this.isshow = true
+    },
     //   页面刷新获取频道列表数据
     async loadChannels () {
       try {
