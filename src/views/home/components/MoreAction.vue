@@ -94,8 +94,11 @@ export default {
         // 告诉父组件隐藏对话框
         this.$emit('input', false)
         this.$toast.success('操作成功')
+        this.showReports = false
       } catch (err) {
         this.$toast.fail('操作失败')
+        this.showReports = false
+        this.$emit('input', false)
       }
     }
   }
