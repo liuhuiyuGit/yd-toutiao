@@ -137,7 +137,6 @@ export default {
       this.$set(channel, 'pullLoading', false)
       // 1. 把channel添加到我的频道
       this.channels.push(channel)
-      console.log(this.channels)
       // 2. 判断是否登录
       if (this.user) {
         // 3. 如果登录，发送请求

@@ -19,3 +19,16 @@ export const blacklists = (id) => {
     target: id
   })
 }
+
+// 关注用户
+export const followUser = (id) => {
+  return axios.post('/app/v1_0/user/followings', {
+    // 关注用户的id
+    target: id
+  })
+}
+
+// 取消关注用户
+export const unFollowUser = (id) => {
+  return axios.delete(`/app/v1_0/user/followings/${id}`)
+}

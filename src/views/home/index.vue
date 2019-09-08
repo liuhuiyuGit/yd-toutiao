@@ -20,6 +20,7 @@
             @load="onLoad"
           >
             <van-cell
+            @click="$router.push({name:'detail',params:{id:article.art_id.toString()}})"
               v-for="article in currentChannel.articles"
               :key="article.art_id.toString()"
               :title="article.title"
@@ -44,7 +45,7 @@
                   <span>{{ article.comm_count }}评论</span>&nbsp;
                   <span>{{ article.pubdate | fmtDate }}</span>&nbsp;
                   <!-- 点击x按钮，记录当前的文章对象 -->
-                  <van-icon name="cross" class="close" @click="handleAction(article)"/>
+                  <van-icon name="cross" class="close" @click.stop="handleAction(article)"/>
                 </p>
               </div>
             </van-cell>
