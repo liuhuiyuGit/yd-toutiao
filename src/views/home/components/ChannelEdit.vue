@@ -135,13 +135,6 @@ export default {
       this.$set(channel, 'loading', false)
       this.$set(channel, 'finished', false)
       this.$set(channel, 'pullLoading', false)
-      // channel.timestamp = null
-      // channel.articles = []
-      // // 上拉加载
-      // channel.loading = false
-      // channel.finished = false
-      // // 下拉加载
-      // channel.pullLoading = false
       // 1. 把channel添加到我的频道
       this.channels.push(channel)
       console.log(this.channels)

@@ -1,7 +1,7 @@
 <template>
   <div>
     <van-dialog
-      @input="$emit('input', $event)"
+      @input="fun1"
       :value="value"
       closeOnClickOverlay
       :showConfirmButton="false"
@@ -50,6 +50,12 @@ export default {
   },
   props: ['article', 'value'],
   methods: {
+    // 退出组件的时候
+    fun1 ($event) {
+      this.$emit('input', $event)
+      this.showReports = false
+    },
+    // 点击内cell触发的函数
     handle (type, reportType) {
       switch (type) {
         case 'dislike':
@@ -100,6 +106,11 @@ export default {
         this.showReports = false
         this.$emit('input', false)
       }
+    }
+  },
+  created () {
+    if (this.value === true) {
+      this.showReports = false
     }
   }
 }
