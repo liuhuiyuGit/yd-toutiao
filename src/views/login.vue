@@ -64,7 +64,7 @@ export default {
         }
         const data = await login(this.user)
         this.setUser(data)
-        this.$router.push('/')
+        this.$router.push(this.$route.query.redirect || '/')
         this.$toast.success('登录成功')
       } catch (err) {
         this.$toast.fail('登录失败')

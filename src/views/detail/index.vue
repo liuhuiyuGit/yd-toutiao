@@ -61,6 +61,7 @@ export default {
   methods: {
     //   点击关注
     async Focus () {
+      this.$checkLogin()
       this.loadingguan = true
       try {
         if (this.article.is_followed) {
@@ -78,6 +79,7 @@ export default {
     },
     //   点击点赞
     async handleLike () {
+      this.$checkLogin()
       this.loadingzan = true
       try {
         if (this.article.attitude === 1) {
@@ -94,6 +96,7 @@ export default {
     },
     // 点击不喜欢
     async noLike () {
+      this.$checkLogin()
       this.loadingLike = true
       try {
         if (this.article.attitude === 0) {
