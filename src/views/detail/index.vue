@@ -41,7 +41,7 @@
     </div>
     <SendComment :target="article.art_id.toString()" :isArticle="true"></SendComment>
     <van-popup v-model="show" position="bottom" :style="{ height: '80%' }">
-      <ReplyList></ReplyList>
+      <ReplyList :currentComment="comment"></ReplyList>
     </van-popup>
   </div>
 </template>
@@ -56,7 +56,7 @@ import {
 import { followUser, unFollowUser } from '@/api/user'
 // 评论列表
 import CommentList from './component/CommentList'
-// 发布评论列表
+// 发布评论
 import SendComment from './component/SendComment'
 // 对评论进行评论
 import ReplyList from './component/ReplyList'
@@ -67,7 +67,8 @@ export default {
       loadingzan: false,
       loadingLike: false,
       loadingguan: false,
-      show: false
+      show: false,
+      comment: null
     }
   },
   components: {
@@ -80,6 +81,7 @@ export default {
     // 子组件点击回复触发的事件
     showComments (comment) {
       this.show = true
+      this.comment = comment
     },
     //   点击关注
     async Focus () {
