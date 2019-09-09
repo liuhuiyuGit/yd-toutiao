@@ -68,7 +68,10 @@ export default {
   },
   created () {
     eventHub.$on('sendSuccess', (comment) => {
-      this.list.unshift(comment)
+      // 如果对评论进行评论的时候再添加数据
+      if (!this.isArticle) {
+        this.list.unshift(comment)
+      }
     })
   }
 }

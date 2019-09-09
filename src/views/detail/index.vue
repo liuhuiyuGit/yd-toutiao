@@ -41,7 +41,7 @@
     </div>
     <SendComment :target="article.art_id.toString()" :isArticle="true"></SendComment>
     <van-popup v-model="show" position="bottom" :style="{ height: '80%' }">
-      <ReplyList :currentComment="comment"></ReplyList>
+      <ReplyList :currentComment="comment" :id="article.art_id.toString()"></ReplyList>
     </van-popup>
   </div>
 </template>

@@ -22,18 +22,23 @@
         </p>
       </div>
     </van-cell>
+    <!-- 对评论进行评论列表渲染 -->
     <CommentList :isArticle="false" :source="currentComment.com_id.toString()"></CommentList>
+    <!-- 对评论进行评论 -->
+    <SendComment :isArticle='false' :target="currentComment.com_id.toString()" :art_id="id"></SendComment>
   </div>
 </template>
 <script>
 import CommentList from './CommentList'
+import SendComment from './SendComment'
 export default {
   data () {
     return {}
   },
-  props: ['currentComment'],
+  props: ['currentComment', 'id'],
   components: {
-    CommentList
+    CommentList,
+    SendComment
   }
 }
 </script>
