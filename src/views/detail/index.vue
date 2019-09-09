@@ -39,6 +39,7 @@
     <div class="mei">
       <CommentList :isArticle="true"  :source="article.art_id.toString()"></CommentList>
     </div>
+    <SendComment :target="article.art_id.toString()" :isArticle="true"></SendComment>
   </div>
 </template>
 <script>
@@ -50,7 +51,10 @@ import {
   Nolike
 } from '@/api/article'
 import { followUser, unFollowUser } from '@/api/user'
+// 评论列表
 import CommentList from './component/CommentList'
+// 发布评论列表
+import SendComment from './component/SendComment'
 export default {
   data () {
     return {
@@ -61,7 +65,8 @@ export default {
     }
   },
   components: {
-    CommentList
+    CommentList,
+    SendComment
   },
   props: ['id'],
   methods: {

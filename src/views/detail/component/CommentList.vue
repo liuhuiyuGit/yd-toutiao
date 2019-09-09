@@ -22,8 +22,8 @@
       <div slot="label">
         <p>{{ comment.content }}</p>
         <p>
-          <span>{{ comment.pubdate | fmtDate }}</span>
-          <span>回复 {{ comment.reply_count }}</span>
+          <span>{{ comment.pubdate | fmtDate }}</span>&nbsp;
+          <span>回复{{ comment.reply_count }}</span>
         </p>
       </div>
     </van-cell>
@@ -33,6 +33,7 @@
 <script>
 // 获取评论列表
 import { getComments } from '@/api/comment'
+import eventHub from '@/utils/eventHub'
 export default {
   data () {
     return {
@@ -59,6 +60,11 @@ export default {
         this.finished = true
       }
     }
+  },
+  created () {
+    eventHub.$on('sendSuccess', (comment) => {
+      this.list.unshift(comment)
+    })
   }
 }
 </script>
