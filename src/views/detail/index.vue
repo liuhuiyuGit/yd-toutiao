@@ -37,9 +37,12 @@
     <!-- 猜你喜欢 -->
     <div class="cai">评论列表</div>
     <div class="mei">
-      <CommentList :isArticle="true"  :source="article.art_id.toString()"></CommentList>
+      <CommentList @reply="showComments" :isArticle="true"  :source="article.art_id.toString()"></CommentList>
     </div>
     <SendComment :target="article.art_id.toString()" :isArticle="true"></SendComment>
+    <van-popup v-model="show" position="bottom" :style="{ height: '80%' }">
+      <ReplyList></ReplyList>
+    </van-popup>
   </div>
 </template>
 <script>
@@ -55,21 +58,29 @@ import { followUser, unFollowUser } from '@/api/user'
 import CommentList from './component/CommentList'
 // 发布评论列表
 import SendComment from './component/SendComment'
+// 对评论进行评论
+import ReplyList from './component/ReplyList'
 export default {
   data () {
     return {
       article: null,
       loadingzan: false,
       loadingLike: false,
-      loadingguan: false
+      loadingguan: false,
+      show: false
     }
   },
   components: {
     CommentList,
-    SendComment
+    SendComment,
+    ReplyList
   },
   props: ['id'],
   methods: {
+    // 子组件点击回复触发的事件
+    showComments (comment) {
+      this.show = true
+    },
     //   点击关注
     async Focus () {
       if (!this.$checkLogin()) {

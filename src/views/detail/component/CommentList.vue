@@ -23,7 +23,7 @@
         <p>{{ comment.content }}</p>
         <p>
           <span>{{ comment.pubdate | fmtDate }}</span>&nbsp;
-          <span>回复{{ comment.reply_count }}</span>
+          <span @click="handleShowReplyList(comment)">回复{{ comment.reply_count }}</span>
         </p>
       </div>
     </van-cell>
@@ -46,6 +46,11 @@ export default {
   },
   props: ['isArticle', 'source'],
   methods: {
+    //  点击回复触发
+    handleShowReplyList (comment) {
+      this.$emit('reply', comment)
+    },
+    //  山拉列表触发
     async onLoad () {
       const data = await getComments({
         offset: this.offset,
