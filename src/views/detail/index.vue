@@ -1,5 +1,5 @@
 <template>
-  <div class="box">
+  <div class="box" v-if="article">
     <!-- 标题 -->
     <van-nav-bar left-text="返回" left-arrow @click-left="$router.back()" fixed title="标题"/>
     <!-- 标题 -->
@@ -35,8 +35,10 @@
       >不喜欢</van-button>
     </div>
     <!-- 猜你喜欢 -->
-    <div class="cai">猜你喜欢</div>
-    <div class="mei">没有更多了</div>
+    <div class="cai">评论列表</div>
+    <div class="mei">
+      <CommentList :isArticle="true"  :source="article.art_id.toString()"></CommentList>
+    </div>
   </div>
 </template>
 <script>
@@ -48,14 +50,18 @@ import {
   Nolike
 } from '@/api/article'
 import { followUser, unFollowUser } from '@/api/user'
+import CommentList from './component/CommentList'
 export default {
   data () {
     return {
-      article: {},
+      article: null,
       loadingzan: false,
       loadingLike: false,
       loadingguan: false
     }
+  },
+  components: {
+    CommentList
   },
   props: ['id'],
   methods: {
@@ -175,14 +181,14 @@ export default {
     margin-top: 13px;
     font-weight: 700;
   }
-  .mei {
-    width: 100%;
-    height: 180px;
-    text-align: center;
-    line-height: 180px;
-    font-size: 14px;
-    color: #666;
-  }
+  // .mei {
+  //   width: 100%;
+  //   height: 180px;
+  //   text-align: center;
+  //   line-height: 180px;
+  //   font-size: 14px;
+  //   color: #666;
+  // }
   .zan2 {
     color: red;
   }
