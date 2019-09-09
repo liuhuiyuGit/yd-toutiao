@@ -1,7 +1,7 @@
 <template>
   <div class="box">
     <!-- 标题 -->
-    <van-nav-bar fixed title="标题"/>
+    <van-nav-bar left-text="返回" left-arrow @click-left="$router.back()" fixed title="标题"/>
     <!-- 标题 -->
     <h2>{{ article.title }}</h2>
     <!-- 关注 -->
@@ -61,7 +61,9 @@ export default {
   methods: {
     //   点击关注
     async Focus () {
-      this.$checkLogin()
+      if (!this.$checkLogin()) {
+        return
+      }
       this.loadingguan = true
       try {
         if (this.article.is_followed) {
@@ -79,7 +81,9 @@ export default {
     },
     //   点击点赞
     async handleLike () {
-      this.$checkLogin()
+      if (!this.$checkLogin()) {
+        return
+      }
       this.loadingzan = true
       try {
         if (this.article.attitude === 1) {
@@ -96,7 +100,9 @@ export default {
     },
     // 点击不喜欢
     async noLike () {
-      this.$checkLogin()
+      if (!this.$checkLogin()) {
+        return
+      }
       this.loadingLike = true
       try {
         if (this.article.attitude === 0) {
