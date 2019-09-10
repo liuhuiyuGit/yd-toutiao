@@ -71,8 +71,6 @@ export default {
     eventHub.$on('sendSuccess', (comment, isArticle) => {
       if (isArticle) {
         this.list.unshift(comment)
-      } else {
-        this.comment.reply_count++
       }
     })
   }

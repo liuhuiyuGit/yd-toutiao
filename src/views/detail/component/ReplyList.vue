@@ -38,7 +38,7 @@
           <p>{{ comment.content }}</p>
           <p>
             <span>{{ comment.pubdate | fmtDate }}</span>&nbsp;
-            <span>回复{{ comment.reply_count }}</span>
+            <!-- <span>回复{{ comment.reply_count }}</span> -->
           </p>
         </div>
       </van-cell>
@@ -89,6 +89,7 @@ export default {
       // 如果对评论进行评论的时候再添加数据
       if (!isArticle) {
         this.list.unshift(comment)
+        this.currentComment.reply_count++
       }
     })
   }
