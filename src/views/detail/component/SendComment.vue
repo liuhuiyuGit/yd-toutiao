@@ -40,7 +40,7 @@ export default {
           content: this.content,
           artId: this.art_id
         })
-        eventHub.$emit('sendSuccess', data.new_obj)
+        eventHub.$emit('sendSuccess', data.new_obj, this.isArticle)
         this.content = ''
       } catch (err) {
         console.log(err)

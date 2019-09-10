@@ -67,10 +67,12 @@ export default {
     }
   },
   created () {
-    eventHub.$on('sendSuccess', (comment) => {
-      // 如果对评论进行评论的时候再添加数据
-      if (!this.isArticle) {
+    // 点击发布按钮触发的事件
+    eventHub.$on('sendSuccess', (comment, isArticle) => {
+      if (isArticle) {
         this.list.unshift(comment)
+      } else {
+        this.comment.reply_count++
       }
     })
   }
