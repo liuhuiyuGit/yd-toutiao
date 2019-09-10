@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <div v-if="currentComment">
     <!-- 标题 -->
-    <van-nav-bar :title="'条评论'"/>
+    <van-nav-bar :title="currentComment.reply_count + '条评论'"/>
     <!-- 当前点击的评论  楼主 -->
     <van-cell>
       <div slot="icon">
@@ -60,22 +60,24 @@ export default {
       finished: false,
       offset: null,
       limit: 10,
-      isArticle: false,
-      source: this.currentComment.com_id.toString()
+      isArticle: false
     }
   },
-  props: ['currentComment', 'id'],
+  // 3、接收到传递过来的当前数据 在页面楼主显示
+  props: ['currentComment', 'id', 'source'],
   components: {
     SendComment
   },
   methods: {
     async onLoad () {
+      console.log(this.source)
       const data = await getComments({
         offset: this.offset,
         limit: this.limit,
         isArticle: this.isArticle,
         source: this.source
       })
+
       this.loading = false
       this.list.push(...data.results)
       this.offset = data.last_id
@@ -85,9 +87,18 @@ export default {
     }
   },
   created () {
+    // 点击回复触发
+    eventHub.$on('DeleteList', () => {
+      this.offset = null
+      this.list = []
+      this.onLoad()
+    })
+    // this.source = this.currentComment.com_id.toString()
+    // 点击发布触发
     eventHub.$on('sendSuccess', (comment, isArticle) => {
       // 如果对评论进行评论的时候再添加数据
       if (!isArticle) {
+        // alert('评论')
         this.list.unshift(comment)
         this.currentComment.reply_count++
       }

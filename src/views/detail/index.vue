@@ -41,7 +41,7 @@
     </div>
     <SendComment :target="article.art_id.toString()" :isArticle="true"></SendComment>
     <van-popup v-model="show" position="bottom" :style="{ height: '80%' }">
-      <ReplyList :currentComment="comment" :id="article.art_id.toString()"></ReplyList>
+      <ReplyList :source="source" :currentComment="comment"  :id="article.art_id.toString()"></ReplyList>
     </van-popup>
   </div>
 </template>
@@ -60,6 +60,7 @@ import CommentList from './component/CommentList'
 import SendComment from './component/SendComment'
 // 对评论进行评论
 import ReplyList from './component/ReplyList'
+import eventHub from '@/utils/eventHub'
 export default {
   data () {
     return {
@@ -68,7 +69,9 @@ export default {
       loadingLike: false,
       loadingguan: false,
       show: false,
-      comment: null
+      comment: null,
+      source: null,
+      isShow: false
     }
   },
   components: {
@@ -79,9 +82,13 @@ export default {
   props: ['id'],
   methods: {
     // 子组件点击回复触发的事件
+    // 2、打开弹层 接收到点击的评论  并且把评论传递到弹层组件中
     showComments (comment) {
-      this.show = true
+      console.log('区分', comment.com_id.toString())
       this.comment = comment
+      this.source = comment.com_id.toString()
+      eventHub.$emit('DeleteList')
+      this.show = true
     },
     //   点击关注
     async Focus () {

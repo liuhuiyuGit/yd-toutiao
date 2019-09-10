@@ -47,6 +47,7 @@ export default {
   props: ['isArticle', 'source'],
   methods: {
     //  点击回复触发
+    // 1、点击把值传入到index  并且打开弹层
     handleShowReplyList (comment) {
       this.$emit('reply', comment)
     },
@@ -70,6 +71,7 @@ export default {
     // 点击发布按钮触发的事件
     eventHub.$on('sendSuccess', (comment, isArticle) => {
       if (isArticle) {
+        // alert('文章')
         this.list.unshift(comment)
       }
     })
