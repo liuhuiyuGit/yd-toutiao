@@ -34,6 +34,7 @@
 // 获取评论列表
 import { getComments } from '@/api/comment'
 import eventHub from '@/utils/eventHub'
+import { mapMutations } from 'vuex'
 export default {
   data () {
     return {
@@ -46,10 +47,12 @@ export default {
   },
   props: ['isArticle', 'source'],
   methods: {
+    ...mapMutations(['setcomment']),
     //  点击回复触发
     // 1、点击把值传入到index  并且打开弹层
     handleShowReplyList (comment) {
-      this.$emit('reply', comment)
+      this.setcomment(comment)
+      this.$emit('reply')
     },
     //  山拉列表触发
     async onLoad () {

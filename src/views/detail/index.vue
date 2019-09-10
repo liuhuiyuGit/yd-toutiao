@@ -41,7 +41,7 @@
     </div>
     <SendComment :target="article.art_id.toString()" :isArticle="true"></SendComment>
     <van-popup v-model="show" position="bottom" :style="{ height: '80%' }">
-      <ReplyList :source="source" :currentComment="comment"  :id="article.art_id.toString()"></ReplyList>
+      <ReplyList :id="article.art_id.toString()"></ReplyList>
     </van-popup>
   </div>
 </template>
@@ -68,10 +68,7 @@ export default {
       loadingzan: false,
       loadingLike: false,
       loadingguan: false,
-      show: false,
-      comment: null,
-      source: null,
-      isShow: false
+      show: false
     }
   },
   components: {
@@ -83,10 +80,7 @@ export default {
   methods: {
     // 子组件点击回复触发的事件
     // 2、打开弹层 接收到点击的评论  并且把评论传递到弹层组件中
-    showComments (comment) {
-      console.log('区分', comment.com_id.toString())
-      this.comment = comment
-      this.source = comment.com_id.toString()
+    showComments () {
       eventHub.$emit('DeleteList')
       this.show = true
     },

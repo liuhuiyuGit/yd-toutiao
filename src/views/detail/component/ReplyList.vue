@@ -52,6 +52,7 @@
 import SendComment from './SendComment'
 import { getComments } from '@/api/comment'
 import eventHub from '@/utils/eventHub'
+import { mapState } from 'vuex'
 export default {
   data () {
     return {
@@ -64,18 +65,20 @@ export default {
     }
   },
   // 3、接收到传递过来的当前数据 在页面楼主显示
-  props: ['currentComment', 'id', 'source'],
+  props: ['id'],
   components: {
     SendComment
   },
+  computed: {
+    ...mapState(['currentComment'])
+  },
   methods: {
     async onLoad () {
-      console.log(this.source)
       const data = await getComments({
         offset: this.offset,
         limit: this.limit,
         isArticle: this.isArticle,
-        source: this.source
+        source: this.currentComment.com_id.toString()
       })
 
       this.loading = false
