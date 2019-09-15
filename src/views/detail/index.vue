@@ -62,6 +62,7 @@ import SendComment from './component/SendComment'
 import ReplyList from './component/ReplyList'
 import eventHub from '@/utils/eventHub'
 export default {
+  name: 'xiangqing',
   data () {
     return {
       article: null,
