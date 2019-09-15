@@ -99,14 +99,14 @@ export default {
 
 <style lang="less" scoped>
 .not-login {
-  height: 300px;
+  height: 600px;
   display: flex;
   justify-content: center;
   align-items: center;
   .circle {
-    width: 100px;
-    height: 100px;
-    padding: 40px;
+    width: 200px;
+    height: 300px;
+    padding: 80px;
     background-color: red;
     border-radius: 100%;
     display: flex;
