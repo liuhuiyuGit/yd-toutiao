@@ -15,8 +15,40 @@ export default new Router({
           name: 'home',
           path: '',
           component: Home
+        },
+        {
+          name: 'user',
+          path: '/user',
+          component: () => import(/* webpackChunkName: "user" */ '../views/User.vue')
         }
       ]
+    },
+    {
+      path: '/follow',
+      name: 'follow',
+      component: () => import(/* webpackChunkName: "follow" */ '../views/follow/index.vue')
+    },
+    {
+      path: '/chat',
+      name: 'chat',
+      component: () => import(/* webpackChunkName: "follow" */ '../views/Chat.vue')
+    },
+    {
+      path: '/user-profile',
+      name: 'user-profile',
+      component: () => import(/* webpackChunkName: "user-profile" */ '../views/user-profile/index.vue')
+    },
+    {
+      path: '/search',
+      name: 'search',
+      component: () => import(/* webpackChunkName: "search" */ '../views/Search.vue')
+    },
+    {
+      path: '/search-result/:q',
+      name: 'search-result',
+      // 路由跳转的时候对，对应的组件把动态路由参数，传递给组件
+      props: true,
+      component: () => import(/* webpackChunkName: "search-result" */ '../views/SearchResult.vue')
     },
     {
       path: '/login',
