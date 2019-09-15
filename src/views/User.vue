@@ -47,7 +47,7 @@
         <van-cell title="消息通知" is-link />
         <van-cell title="用户反馈" is-link />
         <van-cell title="小智同学" is-link to="/chat"/>
-        <van-cell title="系统设置" is-link to="/settings" />
+        <van-cell title="切换账号" is-link to="/login" />
       </van-cell-group>
     </div>
   </div>
@@ -99,21 +99,21 @@ export default {
 
 <style lang="less" scoped>
 .not-login {
-  height: 150px;
+  height: 300px;
   display: flex;
   justify-content: center;
   align-items: center;
   .circle {
-    width: 50px;
-    height: 50px;
-    padding: 20px;
+    width: 100px;
+    height: 100px;
+    padding: 40px;
     background-color: red;
     border-radius: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
     color: #fff;
-    font-size: 20px;
+    font-size: 40px;
   }
 }
 .user-info {
@@ -126,8 +126,8 @@ export default {
       align-items: center
     }
     .avatar {
-      margin-right: 15px;
-      width: 50px;
+      margin-right: 30px;
+      width: 100px;
       border-radius: 100%;
     }
   }

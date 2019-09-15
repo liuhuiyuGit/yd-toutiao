@@ -8,6 +8,9 @@ import 'vant/lib/index.css'
 import './styles/index.less'
 import { fmtDate } from '@/utils/dayjs'
 import Checklogin from '@/utils/CheckLogin'
+import fastClick from 'fastclick'
+import 'amfe-flexible'
+fastClick.attach(document.body)
 Vue.use(Checklogin)
 Vue.use(Vant)
 Vue.use(VeeValidate)

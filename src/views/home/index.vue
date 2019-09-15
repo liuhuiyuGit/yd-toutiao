@@ -210,13 +210,13 @@ export default {
 .van-tabs {
   /deep/ .van-tabs__wrap {
     position: fixed;
-    top: 46px;
+    top: 92px;
     left: 0;
     z-index: 100;
   }
   /deep/ .van-tabs__content {
-    margin-top: 90px;
-    margin-bottom: 50px;
+    margin-top: 180px;
+    margin-bottom: 100px;
   }
 }
 .close {
@@ -224,10 +224,10 @@ export default {
 }
 .nav-btn {
   position: fixed;
-  right: 10px;
-  line-height: 44px;
+  right: 20px;
+  line-height: 88px;
   background-color: #fff;
   opacity: 0.8;
-  font-size: 22px;
+  font-size: 44px;
 }
 </style>

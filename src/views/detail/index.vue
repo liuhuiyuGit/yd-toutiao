@@ -162,23 +162,23 @@ export default {
 </script>
 <style lang="less" scoped>
 .box {
-  margin: 5px 10px;
+  margin: 10px 20px;
   h2 {
-    margin-top: 46px;
+    margin-top: 92px;
     text-align: center;
     font-weight: normal;
   }
   .box1 {
-    height: 70px;
+    height: 140px;
     img {
-      width: 40px;
-      height: 40px;
+      width: 80px;
+      height: 80px;
       border-radius: 50%;
       float: left;
     }
     .user {
       float: left;
-      margin-left: 10px;
+      margin-left: 20px;
       color: #666;
       font-size: 14px;
     }
@@ -187,18 +187,18 @@ export default {
     }
   }
   .zan1 {
-    border-radius: 60px;
-    margin-top: 20px;
-    margin-right: 40px;
-    margin-left: 50px;
+    border-radius: 120px;
+    margin-top: 40px;
+    margin-right: 80px;
+    margin-left: 100px;
   }
   .zan {
-    border-radius: 60px;
-    margin-top: 20px;
+    border-radius: 120px;
+    margin-top: 40px;
   }
   .cai {
-    font-size: 14px;
-    margin-top: 13px;
+    font-size: 12px;
+    margin-top: 26px;
     font-weight: 700;
   }
   // .mei {
