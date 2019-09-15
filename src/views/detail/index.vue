@@ -1,7 +1,7 @@
 <template>
   <div class="box" v-if="article">
     <!-- 标题 -->
-    <van-nav-bar left-text="返回" left-arrow @click-left="$router.back()" fixed title="标题"/>
+    <van-nav-bar left-text="返回" left-arrow @click-left="$router.push('/')" fixed title="标题"/>
     <!-- 标题 -->
     <h2>{{ article.title }}</h2>
     <!-- 关注 -->
